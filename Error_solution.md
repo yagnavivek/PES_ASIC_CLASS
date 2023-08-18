@@ -15,7 +15,7 @@
   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
   sudo update-alternatives --config gcc
   sudo update-alternatives --config g++
-  gcc --version; g+++ --version
+  gcc --version; g++ --version
   ```
   if you see both the versions as 12.x.y then the upgrade is successfull . Now close the terminal and open again (or refresh) start with the command where the error occured.
 
@@ -31,7 +31,7 @@
   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
   sudo update-alternatives --config gcc
   sudo update-alternatives --config g++
-  gcc --version; g+++ --version
+  gcc --version; g++ --version
   ```
   This should resolve the mentioned pproblem.
   MAKE SURE YOU REFRESH or CLOSE-OPEN TEHE TERMINAL BEFORE CONTINUING THE SCRIPT
