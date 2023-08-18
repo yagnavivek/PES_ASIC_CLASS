@@ -40,7 +40,7 @@ The installed contents will be available at ~/opt
 - HDL -> Hardware Description Language
 - GDS -> Graphic Data System (layout)
 
-####### The Hardware needs to understand what the Application software is saying it to do.This relation can be eshtablished by System Software
+###### The Hardware needs to understand what the Application software is saying it to do.This relation can be eshtablished by System Software
 
 ____System Software____
 - OS : Operating System : Handles IO, memory allocation, Low level system function
@@ -49,9 +49,12 @@ ____System Software____
 - HDL : A program that understands the Binary pattern and map it to a netlist
 - GDS : Layout
 
-# Links for easy navigation
+# COURSE 
+<details>
+<summary>DAY 1</summary>
+<br>
 
-# Day 1
+[Back to Links](https://github.com/yagnavivek/PES_ASIC_CLASS#links-for-easy-navigation)
 
 ## 1. Create a simple C program That calculates sum from 1 to N -> sum_1_to_N.c
 
@@ -111,10 +114,21 @@ ____Contents of main when used -O1 optimizer____
 ____contents of main when used -Ofast optimizer____
 ![ALP_Used_ofast](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/a89dff4b-30a7-46fe-bd7e-166ebe95f4e9)
 
+Range of Unsigned numbers : [0, (2^n)-1 ]
+Range of signed numbes : Positive : [0 , 2^(n-1)-1]
+                         Negative : [-1 to 2^(n-1)]
+
 ## 2. create a C program that shows the maximum and minimum values of 64bit unsigend and signed numbers
 
+```
+sign_unsign.c
+```
+![sign_snsign_compiled](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/99db1c71-f02f-472e-9185-4684a90551b8)
 
-
+</details>
+<details>
+<summary>DAY 2</summary>
+<br>
 
 
 
