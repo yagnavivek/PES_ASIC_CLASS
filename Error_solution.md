@@ -10,7 +10,7 @@
   sudo apt update
   sudo apt upgrade
   sudo apt install build-essential
-  sudo apt-y install gcc-12 g++-12
+  sudo apt -y install gcc-12 g++-12
   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 12
   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
   sudo update-alternatives --config gcc
@@ -26,7 +26,7 @@
   sudo apt-get install --reinstall gcc
   sudo dpkg-reconfigure build-essential
   sudo dpkg-reconfigure gcc
-  sudo apt-y install gcc-12 g++-12
+  sudo apt -y install gcc-12 g++-12
   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 12
   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
   sudo update-alternatives --config gcc
