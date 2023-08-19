@@ -35,6 +35,22 @@
   ```
   This should resolve the mentioned pproblem.
   MAKE SURE YOU REFRESH or CLOSE-OPEN TEHE TERMINAL BEFORE CONTINUING THE SCRIPT
+
+### 3. fatal error: stdio.h : No such file or directory
+![Screenshot from 2023-08-19 17-05-51](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/dcd4cc9e-00be-44a6-836d-7697d5267d0a)
+
+```
+vim ~/.bashrc
+```
+insert these 2 paths in bashrc
+```
+export PATH=~/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin:$PATH
+export PATH=~/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/bin:$PATH
+```
+Refresh the terminal
+ 
+
+  
   
 
   
