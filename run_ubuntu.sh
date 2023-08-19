@@ -1,28 +1,3 @@
-echo
-echo
-echo "VVVVV                 VVVVV     IIIIIIIIIIIIIIIIIIIIIIIII     VVVVV                 VVVVV     EEEEEEEEEEEEEEEEEEEEEE     KKKKK            KKKKK "
-echo " VVVVV               VVVVV      IIIIIIIIIIIIIIIIIIIIIIIII      VVVVV               VVVVV      EEEEEEEEEEEEEEEEEEEEEE     KKKKK           KKKKK  "
-echo "  VVVVV             VVVVV                 IIIII                 VVVVV             VVVVV       EEEEE                      KKKKK          KKKKK   "
-echo "   VVVVV           VVVVV                  IIIII                  VVVVV           VVVVV        EEEEE                      KKKKK         KKKKK    "
-echo "    VVVVV         VVVVV                   IIIII                   VVVVV         VVVVV         EEEEE                      KKKKK        KKKKK     "
-echo "     VVVVV       VVVVV                    IIIII                    VVVVV       VVVVV          EEEEE                      KKKKKKKKKK  KKKKK      "
-echo "      VVVVV     VVVVV                     IIIII                     VVVVV     VVVVV           EEEEEEEEEEEEEEEEEEEEEE     KKKKKKKKKKKKKKKK       "
-echo "       VVVVV   VVVVV                      IIIII                      VVVVV   VVVVV            EEEEEEEEEEEEEEEEEEEEEE     KKKKKKKKKKKKKKK        "
-echo "        VVVVV VVVVV                       IIIII                       VVVVV VVVVV             EEEEE                      KKKKKKKKK  KKKKK       "
-echo "         VVVVVVVVV                        IIIII                        VVVVVVVVV              EEEEE                      KKKKK       KKKKK      "
-echo "          VVVVVVV                         IIIII                         VVVVVVV               EEEEE                      KKKKK        KKKKK     "
-echo "           VVVVV                          IIIII                          VVVVV                EEEEE                      KKKKK         KKKKK    "
-echo "            VVV                 IIIIIIIIIIIIIIIIIIIIIIIII                 VVV                 EEEEEEEEEEEEEEEEEEEEEE     KKKKK          KKKKK   "
-echo "             V                  IIIIIIIIIIIIIIIIIIIIIIIII                  V                  EEEEEEEEEEEEEEEEEEEEEE     KKKKK           KKKKK  "
-echo
-echo
-echo "                                                Please look into Error_solution.md to find the solution for frequently occuring errors          "
-echo "                                          Incase of any new error and if you find the solution, feel free to update it in errors.txt            "
-echo "                                                           For further assistance mail@pesug20ec109@pesu.pes.edu                                "
-echo
-echo
-
-
 sudo apt-get install vim -y #installs vim editor with "Yes" for all permissions that will be requested while doing the task
 sudo apt-get install autoconf -y #tool to generate configure script
 sudo apt-get install automake -y #tool to generate makefiles(to build software)
