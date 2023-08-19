@@ -72,3 +72,6 @@ chmod 777 autoconf.sh #chmod - command to change permissions ; 777 - owner,group
 ./configure
 make -j 4
 sudo make install
+echo 'export PATH=~/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin:$PATH' >> ~/.bashrc
+echo 'export PATH=~/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/bin:$PATH' >> /.bashrc
+source ~/.bashrc
