@@ -6,6 +6,11 @@
 ####  Solution : 
   This error usually occurs if you have a gcc version less than 12. You can check it using ``` gcc --version```
   to resolve this You have to upgrade your gcc version. To do that, follow the below commands
+
+  first try closing terminal,open again , go to the directory where the error popped up and execute ```./configure```
+  
+  else
+  
   ```
   sudo apt update
   sudo apt upgrade
