@@ -267,11 +267,311 @@ CPU processes the contents of the memory and provides with output using iverilog
 [Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
 </details>
 
+#  RTL design using Verilog with SKY130 Technology 
+
 <details>
-<summary>DAY 3 </summary>
+<summary>DAY 1:Introducton to Verilog RTL Design and Sythesis</summary>
 <br>
+
+## Prerequisites installation
+
+Tools Required : gtkwave , iverilog , Yosys
+```
+sudo apt update
+sudo apt upgrade
+sudo apt-get install gtkwave
+git clone https://github.com/YosysHQ/yosys.git
+cd yosys
+sudo apt install make
+sudo apt-get install build-essential clang bison flex  libreadline-dev gawk tcl-dev libffi-dev git  graphviz xdot pkg-config python3 libboost-system-dev libboost-python-dev libboost-filesystem-dev zlib1g-dev
+make config-gcc
+make -j 4
+```
+#### Note: for iverilog installation, follow the corresponding part under "run_ubuntu.sh" file under files section
+
+- **Yosys:** Yosys is an open-source synthesis tool that converts RTL (Register Transfer Level) descriptions written in HDL (Hardware Description Language) into optimized gate-level netlists for digital circuit designs.
+	-Inputs to yosys : liberty file(.lib) and design file(HDL)
+	-Output : synthesized netlist mapped with the provided technology library
+
+- **Iverilog:** Iverilog is an open-source Verilog simulation and synthesis tool that allows designers to verify their digital designs using simulation and generate netlists for synthesis.
+	-Inputs to iverilog : testbench and design files
+	-output : VCD (Value change dump) file that stores data related to simulation
+
+- **GTKWave:** GTKWave is an open-source waveform viewer that provides graphical visualization of simulation results produced by digital design simulation tools, aiding in the debugging and analysis of digital circuits.
+	-Inputs : VCD FIle
+	-output : Simulation waveform
+
+### Terminologies
+
+- **Simulator** : The RTL should be check if it matches with the specifications provided. This work is done by Simulator and is used to simulate the design for its functionality
+	- Example : iverilog
+	- Simulator looks for a change in input, based on which the output is evaluated ==> if there is no change in input, Then output is not evaluated.
+
+- **Design** : The set of verilog code(s) that represents the provided functionality/Specification in the form of a netlist.
+
+- **Testbench** : Setup to apply stimulus(test vectors)to the design inorder to check the functionality using the response obtained.
+	- The response is obtained using iverilog in the form of VCD file that is visulaised using gtkwave
+
+- **Synthesizer** : Tool required t convert RTL to netlist
+	- Example : yosys
+
+- **Netlist** : In Synthesis, RTL Design is converted to gate level netlist ie.,design is converted into gates and connections are made between the gates. This is givenout as a file called netlist.
+
+- **liberty(.lib)** : It contains all cells required to represent any logic and the cells are of different flavours(different power, delay, operating conditions etc) 
+ 
+
+#### Files : 
+
+1. The liberty file required for synthesis is ```sky130_fd_sc_hd__tt_025C_1v80.lib``` present under ```RTL_Verilog``` Folder
+2. The Design Files can be found under ```verilog_files``` folder inside ```RTL_verilog``` folder
+
+### Simulation and Results
+
+- create a simple design file ```mux.v```
+- write a testbench for it ```mux_tb.v```
+- To check for functionality, follow the below steps
+```
+cd /path/to/file/location
+iverilog mux.v mux_tb.v -o mux.out
+./mux.out
+gtkwave mux_tb.vcd
+```
+
+The generated waveform can be viewed after appending the nets into signals tab and zoom the waveform to fit the window and the response to stimulus can be observed.
+
+![mux_gtk](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/1bc3db0d-d276-4410-8a38-21af17dcaefd)
+
+### Synthesis and Results
+
+- To synthesize an RTL, as discussed earlier, we need .lib, .v files which provide a mapped.v file as output.
+- To check if synthesis is successful, we have to perform post-synthesis simulation whose output should match with results of pre-synthesis simulation
+
+### Some Important Points :
+
+- Every Liberate file has different flavours of cells such as slow,fast and typical.
+- Why fast cells? : Speed of the circuit can be increased only when combinational block delay is less.Therefore we need fast working cells
+- why slow cells? : If the combinational block provides output very fast, then it becomes harder for the next combinational block to process the signal. Therefore we use slow cells to balance the delay.(ENsure no HOLD issues)
+- Faster cells and slower cells are differentiated based on the rate of charging and discharging
+- higher the rate, lesser the delay. This can be done when we can source more current through the transistors that is achieved by widening the transistors.
+- Wider transistor : Low Delay : More area : More power
+- Narrow transistors : Larger delay : Less area : Less power
+
+Therofore, to achieve optimal syntheis result, we have to specify constraints to the synthesizer that says which set of cells to be selected for syntheis process.
+
+## Synthesis (Interactive flow)
+
+1. open yosys where the verilog files are present using the command  - ```yosys```
+2. Specify the technology library to be used - ```read_liberty -lib <PATH_TO_.lib_FILE_LOCATION>/sky130_fd_sc_hd__tt_025C_1v80.lib```
+3. specify all the verilog files to be synthesized - ```read_verilog mux.v```
+4. since some designs have submodules, it is necessary to mention the topmodule name (mux in my case) - ```synth -top mux```
+5. Generate synthesized netlist (ABC links the expression declared in design file with cells present in library) - ```abc -liberty <Path_to_.lib_File>/sky130_fd_sc_hd__tt_025C_1v80.lib```
+6. To view the graphical representation of sytnthesized netlist - ```show```
+7. Write the generated netlist into a verilog file - ```write_verilog mux_mapped.v``` or ```write_verilog -noattr mux_mapped.v```
+	- noattr helps in compressing the mapped netlist by removing unwanted information
+
+#### ABC Statistics for the synthesis process
+![abc_mux_statistics](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/bb47209f-5509-48cd-a1fc-c193509dcd9a)
+
+![mux_statistics](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/7e187c05-d920-4980-a5e5-200edb12075a)
+
+#### Netlist
+![mux_show](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/a3f056e4-88fa-4263-a8cf-72f7a05971c3)
+
+#### Mapped file when used "-noattr" switch
+![mapped_mux](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/e8cbbdd5-89ef-4409-a3b9-03c48e753a8b)
+
+#### Mapped file when the above switch not used
+![mux_mapped_without_noattr](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/c5d1fc43-f684-452b-b44b-ec398247087d)
+
+The difference tells that when switch is used, un-necessary syntax is removed and the file is written in a compact form
+
+[Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
+
 </details>
 
+<details>
+<summary>DAY 2: Timing libs, Efficient flop coding styles</summary>
+<br>
 
+## Liberate file explained 
+
+lib file name : sky130_fd_sc_hd__tt_025C_1v80.lib
+- ```tt`` - Typical PMOS typical NMOS (Regular working speed)
+- ```025C``` - Temperature
+- ```1v80``` - supply voltage
+The above 3 parameters shortly known as PVT(Process Voltage Temperature) define how and at what conditions the fabricated silicon works
+- ```sky130``` - 130nm Technology node
+- ```fd``` - Foundry design
+- ```sc``` - standard cell
+- ```hd``` - high density - This specifies that this library supports using these standard cells at a high density resulting in samller chip area
+
+- The library file consists of all the details of the cell ie., leakage power, area, timing etc. for all input combinations
+- The library file consists of some same cell with different loads that facilitate the synthesis process.
+
+![and201](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/36923763-9654-4ad0-9230-8d038f1a7332)
+
+-From the figure, it is clear that we have different flavours of same cells whose values are different.
+
+### Hierarchical Synthesis V/s Flat Synthesis
+
+In Hierarchical synthesis, The hierarchy is maintained ie., submodules will be displayed as submodule block itself.They wont be represented by the logic present inside them but when flattened, the submodule data will not be visible. Only the top module will be visible.
+
+#### Steps for hierarchical synthesis, flat synthesis and submodule level synthesis
+
+```
+read_liberty -lib <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog multiple_modules.v
+synth -top multiple_modules  <!-- We can use synth -top <submodule_name> to synthesize the design at submodule level
+abc -liberty <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+write_verilog -noattr multiple_modules_mapped_hier.v
+show multiple_modules
+flatten
+write_verilog -noattr multiple_modules_mapped_flat.v
+show multiple_modules
+```
+### Hierarchical Synthesis output 
+
+![multi_mod_hier](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/47305ca1-3f4a-448b-b648-2745b9662de7)
+
+### Flattened Synthesis netlist
+
+![multi_mod_flat](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/7e1409b5-7514-4cbe-b3a3-38fe7c48b4af)
+
+### Submodule Synthesis netlist (submodule2 in this case)
+
+![submod2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/38a1776b-6920-4f4e-85a5-7a9ff363e818)
+
+#### Note : 
+- While synthesizing OR gate , AND gate, most of the times the tool uses NAND Gates to obtain the functionality as in NAND gates,The NMOS are connected in series and provide better signal transfer.
+- Submodule level synthesis helps reduce synthesis time when in a massive design, the same submodule has been called many times and also we can synthesize all submodules and stitch them to obtain top level.But here the optimisation also takes place at submodule level ,not at top level.3
+
+### Flops
+
+Due to propogation delays of gates, The combinational block may output some glitches which might be negligible but when "n" number of combinational blocks are connected, theglich becomes large and no more remains a glitch but as a false state. So to avoid the addition effect of glitches we will have flops at the end of each combinational blocks as the flop stores the final value and the glitch is eliminated before passing it to next block.
+
+Steps to synthesize flops
+```
+read_liberty -lib <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog flop.v
+synth -top flop
+dfflibmap -liberty <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -liberty <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+write_verilog -noattr flop_mapped.v
+show 
+```
+To view the waveform
+```
+iverilog flop.v flop_tb.v -o flop.out
+./flop.out
+gtkwave flop_tb.vcd
+```
+
+## D-flip-flop with an asynchronous reset
+
+![asyncres_stats](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/cef13e93-fc85-47d6-bf81-b1e110d4412c)
+
+Since we see a D Flip FLop getting inferred, We use the above mentioned dfflibmap command to map the flops accurately
+View the output waveforms
+
+![asyncres_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/e3075c6c-714b-42a6-ad99-bde2a7ed3023)
+
+To Check the functionality, We refer to this waveform
+
+![asyncres_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/0788dc0a-95af-43c5-906d-a8961c6887e0)
+
+
+## D-flip-flop with an asynchronous set
+
+![asyncset_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/f448f979-d3d7-4f6a-878c-681a7d4db8c0)
+
+![asyncset_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/04126806-59a3-4506-8877-c4901e45c592)
+
+## D-flip-flop with both synchronous and asynchronous reset
+
+![sync_async_res_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d0368959-6e54-4cd6-a015-683c6e9158f0)
+
+![sync_async_res_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5ab8057d-43b6-4d00-9385-46c1ba6279f2)
+
+#########################mul2.v and mul8.v synthesize,explain the reson behing such netlist and paste screenshots of show command################################
+## Mul2 
+
+![mul2_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d9ac5584-9c21-4308-ad06-d3c83b936871)
+
+When a number is multiplied by 2, it just means that the number is right shifted once. Therefore a bit "0" is appended at the end of the number to be multiplied by 2. Therefore optimisation has been done by appending a ground bit instead of inferring a multiplier.
+
+## Mul8
+
+![mul8_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/fd649cc2-3792-4078-8a4d-95ee9bede0f2)
+
+mul9 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore multiplier is not inferred here and only 3 bits are added.
+
+[Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
+
+</details>
+
+<details>
+<summary>DAY 3: Combinational and sequential optimizations</summary>
+<br>
+
+## Logic Optimisation
+
+- *Combinational Logic Optimisation*
+	- Constant Propogation
+	- Boolean logic Optimisation
+- *Sequential Logic Optimisation*
+	- Sequential constant propogation
+	- State optimisation
+	- Retiming
+	- Sequential logic cloning
+
+#### To perform the combinational logic optimisation, use the command ```opt_clean -purge``` before linking to abc  and synthesize.
+
+##########################################show all 4 ss of netlist and wvf of optcheck, 2 ,3, 4###################################################
+###########################################ss of multiple_modules_opt and its wvf ###############################################
+
+Inorder to optimise a verilog files tha has submodules, We have to first flatten it, then optimize and complete the synthesis process
+
+#### To perfor, the sequential logic optimisation, use
+
+#############################################show all 5 ss of netlist and wvf of dff_cost 1 2 3 4 5###############################################
+
+##########################################counter_opt netlist ss and explaination##########################
+
+[Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
+
+</details>
+
+<details>
+<summary>DAY 4:GLS, SYnthesis solution mismatch</summary>
+<br>
+
+## Gate Level Simulation(GLS)
+
+- used for post-synthesis verification to ensure functionality and timing requirements
+- input : testbench ,synthesized netlist of a deisgn, gate level verilog models (since design now is synthesised one , it has library gate definitions in it.so we have to pass those verilog models too)
+- sometimes there is a mismatch in simulation results for post-synthesis netlist that's called synthesis simulation mismatch
+
+### Synthesis Simulation Mismatch
+
+Reasons : 
+- **Missing Sensitivity list**
+- **Blocking(sequential execution) vs Non Blocking assignments(parallel Execution)**
+- **Non standard verilog codeing**
+
+### GLS Lab
+
+```
+synthesize conditional_mux and write its netlist
+iverilog <Path_to_primitives.v>/primitives.v <path_to_sky130_fd_sc_hd.v>/sky130_fd_sc_hd.v <path_to_synthesized_netlist>/conditional_mux_mapped.v <path_to_original_file>/conditional_mux.v -o conditional_mux_gls.out
+./conditional_mux_gls.out
+gtkwave conditional_mux_tb.vcd
+```
+
+##########################################bad_mux gtkwave ss and synthesis ss also ss of gls output of synthesized bad mux .compare presynth gtk and now gtk and explain###########################################
+###########################################blocking caveat presynth sim and post synth sim results and explaination##############################################
+
+[Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
+
+</details>
 
 
