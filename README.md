@@ -369,7 +369,7 @@ Therofore, to achieve optimal syntheis result, we have to specify constraints to
 7. Write the generated netlist into a verilog file - ```write_verilog mux_mapped.v``` or ```write_verilog -noattr mux_mapped.v```
 	- noattr helps in compressing the mapped netlist by removing unwanted information
 
-#### ABC Statistics for the synthesis process
+#### ABC Statistics for the synthesis process (mux.v)
 ![abc_mux_statistics](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/bb47209f-5509-48cd-a1fc-c193509dcd9a)
 
 ![mux_statistics](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/7e187c05-d920-4980-a5e5-200edb12075a)
@@ -429,7 +429,7 @@ flatten
 write_verilog -noattr multiple_modules_mapped_flat.v
 show multiple_modules
 ```
-### Hierarchical Synthesis output 
+### Hierarchical Synthesis output (Multiple_modules.v)
 
 ![multi_mod_hier](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/47305ca1-3f4a-448b-b648-2745b9662de7)
 
@@ -466,7 +466,7 @@ iverilog flop.v flop_tb.v -o flop.out
 gtkwave flop_tb.vcd
 ```
 
-## D-flip-flop with an asynchronous reset
+## D-flip-flop with an asynchronous reset (asyncres.v)
 
 ![asyncres_stats](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/cef13e93-fc85-47d6-bf81-b1e110d4412c)
 
@@ -480,26 +480,25 @@ To Check the functionality, We refer to this waveform
 ![asyncres_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/0788dc0a-95af-43c5-906d-a8961c6887e0)
 
 
-## D-flip-flop with an asynchronous set
+## D-flip-flop with an asynchronous set (asyncset.v)
 
 ![asyncset_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/f448f979-d3d7-4f6a-878c-681a7d4db8c0)
 
 ![asyncset_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/04126806-59a3-4506-8877-c4901e45c592)
 
-## D-flip-flop with both synchronous and asynchronous reset
+## D-flip-flop with both synchronous and asynchronous reset (sync_async_res.v)
 
 ![sync_async_res_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d0368959-6e54-4cd6-a015-683c6e9158f0)
 
 ![sync_async_res_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5ab8057d-43b6-4d00-9385-46c1ba6279f2)
 
-#########################mul2.v and mul8.v synthesize,explain the reson behing such netlist and paste screenshots of show command################################
-## Mul2 
+## mul2.v
 
 ![mul2_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d9ac5584-9c21-4308-ad06-d3c83b936871)
 
 When a number is multiplied by 2, it just means that the number is right shifted once. Therefore a bit "0" is appended at the end of the number to be multiplied by 2. Therefore optimisation has been done by appending a ground bit instead of inferring a multiplier.
 
-## Mul8
+## mul8.v
 
 ![mul8_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/fd649cc2-3792-4078-8a4d-95ee9bede0f2)
 
@@ -526,16 +525,60 @@ mul9 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore 
 
 #### To perform the combinational logic optimisation, use the command ```opt_clean -purge``` before linking to abc  and synthesize.
 
-##########################################show all 4 ss of netlist and wvf of optcheck, 2 ,3, 4###################################################
-###########################################ss of multiple_modules_opt and its wvf ###############################################
+## Opt_check1.v
 
-Inorder to optimise a verilog files tha has submodules, We have to first flatten it, then optimize and complete the synthesis process
+![opt_check1](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/02e9e4b7-fd8d-46d4-b486-de5c05df71f5)
 
-#### To perfor, the sequential logic optimisation, use
+## Opt_check2.v
 
-#############################################show all 5 ss of netlist and wvf of dff_cost 1 2 3 4 5###############################################
+![opt_check2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/b8092857-4f6c-49bb-a868-6be5856b511f)
 
-##########################################counter_opt netlist ss and explaination##########################
+## Opt_check3.v
+
+![opt_check3](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/a6309e37-7af5-43be-b218-6662b9c1ddc9)
+
+## Opt_check4.v
+
+![opt_check4](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/8ea3a375-3519-416f-aec9-07ca1b2fb2ca)
+
+## multipe_modules_opt.v
+
+![multiple_modules_opt](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5fd8c401-aa8a-4d29-b3f9-2762956605fc)
+
+Inorder to optimise a verilog files that has submodules, We have to first flatten it, then optimize ```opt_clean -purge``` and complete the synthesis process
+
+Here we can observe that instead of using ```and``` gate and ```or``` gates, its using ```AOI```
+
+#### sequential logic optimisation
+
+## dff_const1
+
+![dff_const1](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/4043a369-f61d-4502-a9f6-155e2f239397)
+
+## dff_const2
+
+![dff_const2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/8f480270-7c16-4a38-ae79-e04ace0bedb3)
+
+## dff_const3
+
+![dff_const3](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/4233d328-3e0b-4a21-9d5c-1c289eb1b827)
+
+## dff_const4
+
+![dff_const4](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/b8f72f6a-4101-406d-954d-21f8c6fccca4)
+
+## dff_const5
+
+![dff_const5](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/a54969c4-efb1-4264-98e0-077643fb6bb8)
+
+## counter_opt1
+
+![counter_opt1](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/4268f5c1-b299-491b-91ee-67d805fd6cc9)
+
+## counter_opt2
+
+![counter_opt2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/3149a083-1589-438d-a9e8-7a39f9633d27)
+
 
 [Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
 
@@ -562,13 +605,24 @@ Reasons :
 
 ```
 synthesize conditional_mux and write its netlist
-iverilog <Path_to_primitives.v>/primitives.v <path_to_sky130_fd_sc_hd.v>/sky130_fd_sc_hd.v <path_to_synthesized_netlist>/conditional_mux_mapped.v <path_to_original_file>/conditional_mux.v -o conditional_mux_gls.out
+iverilog <Path_to_primitives.v>/primitives.v <path_to_sky130_fd_sc_hd.v>/sky130_fd_sc_hd.v <path_to_synthesized_netlist>/conditional_mux_mapped.v <path_to_original_file>/conditional_mux_tb.v -o conditional_mux_gls.out
 ./conditional_mux_gls.out
 gtkwave conditional_mux_tb.vcd
 ```
 
-##########################################bad_mux gtkwave ss and synthesis ss also ss of gls output of synthesized bad mux .compare presynth gtk and now gtk and explain###########################################
-###########################################blocking caveat presynth sim and post synth sim results and explaination##############################################
+## conditional_mux.v presynthesis(above) and post-synthesis simulation(below)
+
+![conditional_mux_gls](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/80d621ef-cc15-466a-8c72-cb3b0278d2ed)
+
+Since the presynthesis and post-synthesis waveforms are same, it confirms that the synthesized netlist is functionally correct
+
+## bad_mux.v presynthesis(above) and post-synthesis(below)
+
+![bad_mux_gls](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/16dd15fb-0905-4744-8999-7a46250f90dd)
+
+##  Blocking_error.v presynthesis(above) and post-synthesis(below)
+
+![blocking_error](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/9cdcfa4a-ffcc-4d4f-8815-b2ef4ad43380)
 
 [Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
 
