@@ -287,6 +287,10 @@ sudo apt-get install build-essential clang bison flex  libreadline-dev gawk tcl-
 make config-gcc
 make -j 4
 ```
+# TO check if Yosys has been installed correctly, then type ```yosys``` in terminal and you should see this output
+
+![Screenshot from 2023-08-29 17-29-35](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/554914d7-3312-415d-9ecd-708bc7420075)
+
 #### Note: for iverilog installation, follow the corresponding part under "run_ubuntu.sh" file under files section
 
 - **Yosys:** Yosys is an open-source synthesis tool that converts RTL (Register Transfer Level) descriptions written in HDL (Hardware Description Language) into optimized gate-level netlists for digital circuit designs.
@@ -323,11 +327,11 @@ make -j 4
 #### Files : 
 
 1. The liberty file required for synthesis is ```sky130_fd_sc_hd__tt_025C_1v80.lib``` present under ```RTL_Verilog``` Folder
-2. The Design Files can be found under ```verilog_files``` folder inside ```RTL_verilog``` folder
+2. The Design Files can be found under ```verilog_files``` folder inside ```RTL_verilog``` folder [verilog_files](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main/RTL_Verilog/verilog_files)
 
-### Simulation and Results
+### Simulation and Results 
 
-- create a simple design file ```mux.v```
+- create a simple design file ```mux.v``` [mux.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mux.v)
 - write a testbench for it ```mux_tb.v```
 - To check for functionality, follow the below steps
 ```
@@ -369,7 +373,7 @@ Therofore, to achieve optimal syntheis result, we have to specify constraints to
 7. Write the generated netlist into a verilog file - ```write_verilog mux_mapped.v``` or ```write_verilog -noattr mux_mapped.v```
 	- noattr helps in compressing the mapped netlist by removing unwanted information
 
-#### ABC Statistics for the synthesis process (mux.v)
+#### ABC Statistics for the synthesis process (mux.v) [mux.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mux.v)
 ![abc_mux_statistics](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/bb47209f-5509-48cd-a1fc-c193509dcd9a)
 
 ![mux_statistics](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/7e187c05-d920-4980-a5e5-200edb12075a)
@@ -395,8 +399,8 @@ The difference tells that when switch is used, un-necessary syntax is removed an
 
 ## Liberate file explained 
 
-lib file name : sky130_fd_sc_hd__tt_025C_1v80.lib
-- ```tt`` - Typical PMOS typical NMOS (Regular working speed)
+lib file name : [sky130_fd_sc_hd__tt_025C_1v80.lib](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/sky130_fd_sc_hd__tt_025C_1v80.lib) 
+- ```tt``` - Typical PMOS typical NMOS (Regular working speed)
 - ```025C``` - Temperature
 - ```1v80``` - supply voltage
 The above 3 parameters shortly known as PVT(Process Voltage Temperature) define how and at what conditions the fabricated silicon works
@@ -429,7 +433,7 @@ flatten
 write_verilog -noattr multiple_modules_mapped_flat.v
 show multiple_modules
 ```
-### Hierarchical Synthesis output (Multiple_modules.v)
+### Hierarchical Synthesis output [Multiple_modules.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/multiple_modules.v)
 
 ![multi_mod_hier](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/47305ca1-3f4a-448b-b648-2745b9662de7)
 
@@ -466,7 +470,7 @@ iverilog flop.v flop_tb.v -o flop.out
 gtkwave flop_tb.vcd
 ```
 
-## D-flip-flop with an asynchronous reset (asyncres.v)
+## D-flip-flop with an asynchronous reset [asyncres.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncres.v) [asyncres_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncres_tb.v)
 
 ![asyncres_stats](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/cef13e93-fc85-47d6-bf81-b1e110d4412c)
 
@@ -480,29 +484,29 @@ To Check the functionality, We refer to this waveform
 ![asyncres_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/0788dc0a-95af-43c5-906d-a8961c6887e0)
 
 
-## D-flip-flop with an asynchronous set (asyncset.v)
+## D-flip-flop with an asynchronous set [asyncset.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncset.v) [asyncset_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncset_tb.v)
 
 ![asyncset_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/f448f979-d3d7-4f6a-878c-681a7d4db8c0)
 
 ![asyncset_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/04126806-59a3-4506-8877-c4901e45c592)
 
-## D-flip-flop with both synchronous and asynchronous reset (sync_async_res.v)
+## D-flip-flop with both synchronous and asynchronous reset [sync_async_res.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/sync_async_res.v) [sync_async_res_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/sync_async_res_tb.v)
 
 ![sync_async_res_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d0368959-6e54-4cd6-a015-683c6e9158f0)
 
 ![sync_async_res_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5ab8057d-43b6-4d00-9385-46c1ba6279f2)
 
-## mul2.v
+## [mul2.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mul2.v) 
 
 ![mul2_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d9ac5584-9c21-4308-ad06-d3c83b936871)
 
 When a number is multiplied by 2, it just means that the number is right shifted once. Therefore a bit "0" is appended at the end of the number to be multiplied by 2. Therefore optimisation has been done by appending a ground bit instead of inferring a multiplier.
 
-## mul8.v
+## [mul8.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mul8.v)
 
 ![mul8_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/fd649cc2-3792-4078-8a4d-95ee9bede0f2)
 
-mul9 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore multiplier is not inferred here and only 3 bits are added.
+mul8 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore multiplier is not inferred here and only 3 bits are added.
 
 [Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
 
@@ -525,23 +529,23 @@ mul9 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore 
 
 #### To perform the combinational logic optimisation, use the command ```opt_clean -purge``` before linking to abc  and synthesize.
 
-## Opt_check1.v
+## [opt_check1.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/opt_check1.v)
 
 ![opt_check1](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/02e9e4b7-fd8d-46d4-b486-de5c05df71f5)
 
-## Opt_check2.v
+## [opt_check2.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/opt_check2.v)
 
 ![opt_check2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/b8092857-4f6c-49bb-a868-6be5856b511f)
 
-## Opt_check3.v
+## [opt_check3.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/opt_check3.v)
 
 ![opt_check3](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/a6309e37-7af5-43be-b218-6662b9c1ddc9)
 
-## Opt_check4.v
+## [opt_check4.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/opt_check4.v)
 
 ![opt_check4](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/8ea3a375-3519-416f-aec9-07ca1b2fb2ca)
 
-## multipe_modules_opt.v
+## [multipe_modules_opt.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/multipe_modules_opt.v)
 
 ![multiple_modules_opt](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5fd8c401-aa8a-4d29-b3f9-2762956605fc)
 
@@ -551,34 +555,37 @@ Here we can observe that instead of using ```and``` gate and ```or``` gates, its
 
 #### sequential logic optimisation
 
-## dff_const1
+## [dff_const1](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const1.v) [dff_const1_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const1_tb.vcd)
 
 ![dff_const1](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/4043a369-f61d-4502-a9f6-155e2f239397)
 
-## dff_const2
+## [dff_const2](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const2.v) [dff_const2_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const2_tb.vcd)
 
 ![dff_const2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/8f480270-7c16-4a38-ae79-e04ace0bedb3)
 
-## dff_const3
+## [dff_const3](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const3.v) [dff_const3_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const3_tb.vcd)
 
 ![dff_const3](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/4233d328-3e0b-4a21-9d5c-1c289eb1b827)
 
-## dff_const4
+## [dff_const4](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const4.v) [dff_const4_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const4_tb.vcd)
 
 ![dff_const4](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/b8f72f6a-4101-406d-954d-21f8c6fccca4)
 
-## dff_const5
+## [dff_const5](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const5.v) [dff_const5_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/dff_const5_tb.vcd)
 
 ![dff_const5](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/a54969c4-efb1-4264-98e0-077643fb6bb8)
 
-## counter_opt1
+## [counter_opt1.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/counter_opt1.v)
 
 ![counter_opt1](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/4268f5c1-b299-491b-91ee-67d805fd6cc9)
 
-## counter_opt2
+Usually a 3 bit counter requires 3 flops but since the output here is dependent on only the LSB and other 2 bits are unused. Therefore only one flop is being down and as we know that LSB toggles every clock cylce,its just using an inverter to invert the output at every clock cycle.
+
+## [counter_opt2.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/counter_opt2.v)
 
 ![counter_opt2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/3149a083-1589-438d-a9e8-7a39f9633d27)
 
+Since the logic is changed such that the output is dependent on all 3 bits, it has inferred 3 flip flops.
 
 [Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
 
@@ -610,20 +617,23 @@ iverilog <Path_to_primitives.v>/primitives.v <path_to_sky130_fd_sc_hd.v>/sky130_
 gtkwave conditional_mux_tb.vcd
 ```
 
-## conditional_mux.v presynthesis(above) and post-synthesis simulation(below)
+## presynthesis(above) and post-synthesis simulation(below) [conditional_mux.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/conditional_mux.v) [conditional_mux_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/conditional_mux_tb.v)
 
 ![conditional_mux_gls](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/80d621ef-cc15-466a-8c72-cb3b0278d2ed)
 
 Since the presynthesis and post-synthesis waveforms are same, it confirms that the synthesized netlist is functionally correct
 
-## bad_mux.v presynthesis(above) and post-synthesis(below)
+## presynthesis(above) and post-synthesis(below) [bad_mux.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/bad_mux.v) [bad_mux_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/bad_mux_tb.v)
 
 ![bad_mux_gls](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/16dd15fb-0905-4744-8999-7a46250f90dd)
 
-##  Blocking_error.v presynthesis(above) and post-synthesis(below)
+since the sensitivity list had only select signal, the output changes only when select signal changes irrespective of input 1 and 0. The presynthesis waveform explains the same. But after synthesizing, the waveform can be explained such a way that output is depending on all the input changes. This case is called **Synthesis Simulation Mismatch**
+
+##  presynthesis(above) and post-synthesis(below) [Blocking_error.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/blocking_error.v) [Blocking_error_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/blocking_error_tb.v)
 
 ![blocking_error](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/9cdcfa4a-ffcc-4d4f-8815-b2ef4ad43380)
 
+when we observe the code, d=x&c and x=a|b so d depends on x but x is evaluated after d.so d uses previous value of x to compute itself.Therefore we can say that if previous value is being used, then it's behaving like a flop and the same can be observed in waveform. But after synthesis, its behoviour is normal as-if value of x has been computed before giving to d. This state can be called as **Synthesis Simulation Mismatch**
 [Back to COURSE](https://github.com/yagnavivek/PES_ASIC_CLASS/tree/main#course)
 
 </details>
